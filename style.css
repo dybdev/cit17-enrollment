@@ -1,8 +1,8 @@
 ﻿:root {
-  --ink: #18283f;
+  --ink: #171717;
   --muted: #64748b;
-  --accent: #2563eb;
-  --primary: #2563eb;
+  --accent: #c24d22;
+  --primary: #ffad80;
   --line: #e2e8f0;
   --field: #f8fafc;
   --error: #b52d20;
@@ -17,9 +17,9 @@ body {
   margin: 0;
   min-height: 100vh;
   padding: 64px 32px 36px;
-  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
   color: var(--ink);
-  background: #edf1f7;
+  background: #f1f5f9;
   line-height: 1.5;
 }
 button,
@@ -49,8 +49,8 @@ a {
   background: #fff;
   border-radius: 18px;
   padding: 32px 48px 22px;
-  border: 1px solid #dce4ee;
-  box-shadow: 0 20px 55px #162a450a;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 20px 55px #0f172a0a;
 }
 .site-header {
   display: flex;
@@ -60,7 +60,7 @@ a {
 }
 .brand {
   font-size: 23px;
-  font-weight: 750;
+  font-weight: 700;
   display: flex;
   align-items: center;
   letter-spacing: -1px;
@@ -104,7 +104,7 @@ nav a:hover {
   height: 7px;
   width: 7px;
   border-radius: 50%;
-  background: #2563eb;
+  background: #c24d22;
 }
 .main-layout {
   display: grid;
@@ -126,7 +126,7 @@ h1 {
   line-height: 1.22;
   letter-spacing: -1.1px;
   margin: 0;
-  font-weight: 650;
+  font-weight: 600;
 }
 h1 > span {
   color: var(--accent);
@@ -189,13 +189,13 @@ h1 > span {
 .stepper button[aria-current] > span {
   background: var(--primary);
   border-color: var(--primary);
-  color: #fff;
-  box-shadow: 0 4px 9px #2563eb20;
+  color: var(--ink);
+  box-shadow: 0 4px 9px #f59a7020;
 }
 .stepper .complete > span {
-  background: #eaf1ff;
-  border-color: #eaf1ff;
-  color: var(--primary);
+  background: #fff0e7;
+  border-color: #fff0e7;
+  color: var(--accent);
 }
 .step-heading {
   display: flex;
@@ -215,7 +215,7 @@ h2 {
   letter-spacing: -0.55px;
   line-height: 1.3;
   margin: 0;
-  font-weight: 650;
+  font-weight: 600;
 }
 .required-note {
   font-size: 12px;
@@ -269,9 +269,9 @@ input::placeholder {
 input:focus,
 select:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: #c24d22;
   background: #fff;
-  box-shadow: 0 0 0 3px #2563eb1c;
+  box-shadow: 0 0 0 3px #f59a702b;
 }
 input[aria-invalid="true"],
 select[aria-invalid="true"] {
@@ -296,9 +296,9 @@ select[aria-invalid="true"] {
   margin-top: 10px;
   padding: 14px 16px;
   border-radius: 13px;
-  background: #eff6ff;
+  background: #f1f5f9;
   font-size: 13px;
-  color: #345780;
+  color: #475569;
 }
 .help-note > span {
   font-size: 18px;
@@ -324,7 +324,7 @@ button {
 button:focus-visible,
 a:focus-visible,
 .table-wrapper:focus-visible {
-  outline: 3px solid #2563eb;
+  outline: 3px solid #c24d22;
   outline-offset: 4px;
 }
 .back-button {
@@ -348,7 +348,7 @@ a:focus-visible,
 }
 .primary-button {
   background: var(--primary);
-  color: white;
+  color: var(--ink);
   border: 0;
   border-radius: 8px;
   padding: 13px 23px;
@@ -360,7 +360,7 @@ a:focus-visible,
   transition: 0.2s;
 }
 .primary-button:hover {
-  background: #1d4ed8;
+  background: #ff975f;
   transform: translateY(-2px);
 }
 .primary-button span {
@@ -370,7 +370,7 @@ a:focus-visible,
 .feature-panel {
   min-height: 525px;
   border-radius: 12px;
-  background: #172b4d;
+  background: #334155;
   padding: 28px;
   color: #fff;
   display: flex;
@@ -386,13 +386,13 @@ a:focus-visible,
 }
 .guide-label {
   font-size: 11px;
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: 1.4px;
-  color: #b1c9ed;
+  color: #fdba94;
 }
 .guide-number {
   font-size: 12px;
-  color: #b1c9ed;
+  color: #fdba94;
   white-space: nowrap;
 }
 .feature-copy {
@@ -402,12 +402,12 @@ a:focus-visible,
   font-size: 36px;
   line-height: 1.2;
   letter-spacing: -1px;
-  font-weight: 650;
+  font-weight: 600;
 }
 .feature-copy p {
   font-size: 14px;
   line-height: 1.8;
-  color: #c5d3e6;
+  color: #e2e8f0;
   margin: 22px 0;
 }
 .guide-list {
@@ -424,7 +424,7 @@ a:focus-visible,
   font-size: 13px;
 }
 .guide-list span {
-  color: #8cb7ff;
+  color: #ffad80;
   font-size: 11px;
   font-weight: 600;
 }
@@ -433,7 +433,7 @@ a:focus-visible,
   padding-top: 22px;
   font-size: 10px;
   letter-spacing: 1px;
-  color: #a9bfdc;
+  color: #cbd5e1;
 }
 .card-footer {
   border-top: 1px solid var(--line);
@@ -453,7 +453,7 @@ a:focus-visible,
   padding: 28px 36px;
   border-radius: 25px;
   background: #ffffff;
-  box-shadow: 0 14px 40px #162a4510;
+  box-shadow: 0 14px 40px #0f172a10;
 }
 .records-header {
   display: flex;
@@ -471,7 +471,7 @@ a:focus-visible,
 #record-count {
   font-size: 12px;
   border-radius: 18px;
-  background: #eaf1ff;
+  background: #fff0e7;
   padding: 7px 12px;
 }
 .table-wrapper {
