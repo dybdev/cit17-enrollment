@@ -1,0 +1,355 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete your student enrollment in five simple steps."
+    />
+    <title>Student Enrollment System</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="backdrop-shape" aria-hidden="true"></div>
+    <main class="page-shell">
+      <section class="enrollment-card" aria-labelledby="page-title">
+        <header class="site-header">
+          <a class="brand" href="index.html" aria-label="Enroll home"
+            ><span class="brand-mark" aria-hidden="true">e<span>✦</span></span
+            >enroll<span class="brand-dot">.</span></a
+          >
+          <nav aria-label="Main navigation">
+            <a class="active" href="#enrollment">Enrollment</a
+            ><a href="#records"
+              >Student records <span aria-hidden="true">↗</span></a
+            >
+          </nav>
+          <span class="header-note"><span></span> Student portal</span>
+        </header>
+        <div class="main-layout" id="enrollment">
+          <div class="form-area">
+            <p class="eyebrow">YOUR NEXT CHAPTER STARTS HERE</p>
+            <h1 id="page-title">Student Enrollment System<span>.</span></h1>
+            <p class="intro">
+              A few details today. A world of possibilities tomorrow.
+            </p>
+            <ol class="stepper" aria-label="Enrollment progress">
+              <li>
+                <button type="button" data-step="0" aria-current="step">
+                  <span>1</span><small>Student ID</small>
+                </button>
+              </li>
+              <li>
+                <button type="button" data-step="1">
+                  <span>2</span><small>Your name</small>
+                </button>
+              </li>
+              <li>
+                <button type="button" data-step="2">
+                  <span>3</span><small>Contact</small>
+                </button>
+              </li>
+              <li>
+                <button type="button" data-step="3">
+                  <span>4</span><small>Academics</small>
+                </button>
+              </li>
+              <li>
+                <button type="button" data-step="4">
+                  <span>5</span><small>Review</small>
+                </button>
+              </li>
+            </ol>
+            <form id="enrollment-form" novalidate>
+              <div class="step-heading">
+                <div>
+                  <p id="step-count">STEP 01 / 05</p>
+                  <h2 id="step-title" tabindex="-1">Let’s start with you.</h2>
+                </div>
+                <span class="required-note">* Required fields</span>
+              </div>
+              <section
+                class="form-step"
+                data-panel="0"
+                aria-label="Student identification"
+              >
+                <p class="step-description">
+                  Enter your student ID to begin your enrollment.
+                </p>
+                <div class="field">
+                  <label for="student-id">Student ID <span>*</span></label
+                  ><input
+                    id="student-id"
+                    name="studentId"
+                    type="text"
+                    required
+                    minlength="5"
+                    placeholder="e.g. 2026-00123"
+                    aria-describedby="student-id-error"
+                  /><span class="error" id="student-id-error"></span>
+                </div>
+                <div class="help-note">
+                  <span aria-hidden="true">ⓘ</span>
+                  <p>
+                    Use the student ID assigned by your school.<br /><span
+                      >It should contain at least 5 characters.</span
+                    >
+                  </p>
+                </div>
+              </section>
+              <section
+                class="form-step"
+                data-panel="1"
+                aria-label="Student name"
+                hidden
+              >
+                <p class="step-description">
+                  Enter your name as it appears on your school records.
+                </p>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="prefix">Prefix <em>Optional</em></label
+                    ><input
+                      id="prefix"
+                      name="prefix"
+                      minlength="2"
+                      placeholder="e.g. Ms."
+                      autocomplete="honorific-prefix"
+                      aria-describedby="prefix-error"
+                    /><span class="error" id="prefix-error"></span>
+                  </div>
+                  <div class="field">
+                    <label for="first-name">First name <span>*</span></label
+                    ><input
+                      id="first-name"
+                      name="firstName"
+                      required
+                      minlength="3"
+                      placeholder="First name"
+                      autocomplete="given-name"
+                      aria-describedby="first-name-error"
+                    /><span class="error" id="first-name-error"></span>
+                  </div>
+                  <div class="field">
+                    <label for="middle-name"
+                      >Middle name <em>Optional</em></label
+                    ><input
+                      id="middle-name"
+                      name="middleName"
+                      minlength="2"
+                      placeholder="Middle name"
+                      autocomplete="additional-name"
+                      aria-describedby="middle-name-error"
+                    /><span class="error" id="middle-name-error"></span>
+                  </div>
+                  <div class="field">
+                    <label for="last-name">Last name <span>*</span></label
+                    ><input
+                      id="last-name"
+                      name="lastName"
+                      required
+                      minlength="2"
+                      placeholder="Last name"
+                      autocomplete="family-name"
+                      aria-describedby="last-name-error"
+                    /><span class="error" id="last-name-error"></span>
+                  </div>
+                  <div class="field">
+                    <label for="suffix">Suffix <em>Optional</em></label
+                    ><input
+                      id="suffix"
+                      name="suffix"
+                      minlength="2"
+                      placeholder="e.g. Jr."
+                      autocomplete="honorific-suffix"
+                      aria-describedby="suffix-error"
+                    /><span class="error" id="suffix-error"></span>
+                  </div>
+                </div>
+              </section>
+              <section
+                class="form-step"
+                data-panel="2"
+                aria-label="Contact information"
+                hidden
+              >
+                <p class="step-description">
+                  Add the email address you use for school correspondence.
+                </p>
+                <div class="field">
+                  <label for="email">Email address <span>*</span></label
+                  ><input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    aria-describedby="email-error"
+                  /><span class="error" id="email-error"></span>
+                </div>
+              </section>
+              <section
+                class="form-step"
+                data-panel="3"
+                aria-label="Academic information"
+                hidden
+              >
+                <p class="step-description">
+                  Choose your program and current year level.
+                </p>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="course">Course <span>*</span></label
+                    ><select
+                      id="course"
+                      name="course"
+                      required
+                      aria-describedby="course-error"
+                    >
+                      <option value="">Select your course</option>
+                      <option>BSIT</option>
+                      <option>BSCS</option>
+                      <option>BMMA</option>
+                      <option>BSAIS</option></select
+                    ><span class="error" id="course-error"></span>
+                  </div>
+                  <div class="field">
+                    <label for="year">Year level <span>*</span></label
+                    ><select
+                      id="year"
+                      name="year"
+                      required
+                      aria-describedby="year-error"
+                    >
+                      <option value="">Select year level</option>
+                      <option>1st Year</option>
+                      <option>2nd Year</option>
+                      <option>3rd Year</option></select
+                    ><span class="error" id="year-error"></span>
+                  </div>
+                  <div class="field" id="major-field" hidden>
+                    <label for="major">BSIT major <span>*</span></label
+                    ><select
+                      id="major"
+                      name="major"
+                      disabled
+                      aria-describedby="major-error"
+                    >
+                      <option value="">Select your major</option>
+                      <option>Net Sec</option>
+                      <option>Web Tech</option>
+                      <option>ERP</option></select
+                    ><span class="error" id="major-error"></span>
+                  </div>
+                </div>
+              </section>
+              <section
+                class="form-step"
+                data-panel="4"
+                aria-label="Review enrollment"
+                hidden
+              >
+                <p class="step-description">
+                  Check your details before submitting. Select a step above to
+                  make changes.
+                </p>
+                <dl id="review-details" class="review-grid"></dl>
+              </section>
+              <div class="form-actions">
+                <button type="button" class="back-button" id="back" disabled>
+                  ← <span>Back</span></button
+                ><span id="progress-note">One step closer to your future</span
+                ><button type="submit" class="primary-button" id="next">
+                  Continue <span aria-hidden="true">↗</span>
+                </button>
+              </div>
+            </form>
+            <div
+              id="success-message"
+              class="success-message"
+              role="status"
+              hidden
+            ></div>
+            <noscript
+              ><p class="error">
+                Please enable JavaScript to complete this enrollment form.
+              </p></noscript
+            >
+          </div>
+          <aside class="feature-panel">
+            <div class="feature-top">
+              <span class="feature-symbol" aria-hidden="true">✳</span
+              ><span>THE FUTURE<br />IS YOURS</span>
+            </div>
+            <div class="feature-copy">
+              <span class="mini-label">A NEW BEGINNING</span>
+              <h2>Big dreams.<br />Small steps.<br /><i>Start here.</i></h2>
+              <p>
+                Your next chapter begins with a single step. Let’s make it
+                count.
+              </p>
+              <span class="feature-tag"
+                >Made for your tomorrow <span aria-hidden="true">↗</span></span
+              >
+            </div>
+            <span class="panel-orb" aria-hidden="true"></span
+            ><span class="panel-curve" aria-hidden="true"></span
+            ><span class="panel-caption">LEARN. CREATE. BECOME.</span>
+          </aside>
+        </div>
+        <footer class="card-footer">
+          <span>Student Enrollment System</span
+          ><span
+            >Built for brighter beginnings
+            <span aria-hidden="true">✦</span></span
+          >
+        </footer>
+      </section>
+      <section
+        class="records-card"
+        id="records"
+        aria-labelledby="records-title"
+      >
+        <div class="records-header">
+          <div>
+            <p class="eyebrow">ALL IN ONE PLACE</p>
+            <h2 id="records-title">Submitted students</h2>
+          </div>
+          <span id="record-count">0 enrollments</span>
+        </div>
+        <div
+          class="table-wrapper"
+          tabindex="0"
+          role="region"
+          aria-label="Submitted student records"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Course</th>
+                <th>Major</th>
+                <th>Year level</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody">
+              <tr id="emptyRow">
+                <td colspan="6" class="empty-state">
+                  Your submitted enrollments will appear here.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="records-note">
+          Records are shown for this session only and clear when you refresh.
+        </p>
+      </section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
