@@ -1,10 +1,10 @@
 ﻿:root {
-  --ink: #252936;
-  --muted: #70716f;
-  --accent: #e46745;
-  --green: #344d40;
-  --line: #e9e9e6;
-  --field: #f4f4f2;
+  --ink: #18283f;
+  --muted: #64748b;
+  --accent: #2563eb;
+  --primary: #2563eb;
+  --line: #e2e8f0;
+  --field: #f8fafc;
   --error: #b52d20;
 }
 * {
@@ -17,11 +17,9 @@ body {
   margin: 0;
   min-height: 100vh;
   padding: 64px 32px 36px;
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
   color: var(--ink);
-  background:
-    radial-gradient(ellipse at 4% 95%, #ffdd8d 0, transparent 55%),
-    linear-gradient(120deg, #f8bc90, #f6a58d 70%, #f9bc9a);
+  background: #edf1f7;
   line-height: 1.5;
 }
 button,
@@ -43,28 +41,16 @@ a {
   color: inherit;
   text-decoration: none;
 }
-.backdrop-shape {
-  position: absolute;
-  z-index: -1;
-  left: -190px;
-  top: 250px;
-  width: 490px;
-  height: 590px;
-  border-radius: 48% 52% 60% 35%;
-  background: linear-gradient(135deg, #b8c899, #899577);
-  transform: rotate(31deg);
-  border: 1px solid #d5dabc;
-  box-shadow: 25px 40px 70px #68633b40;
-}
 .page-shell {
   max-width: 1200px;
   margin: auto;
 }
 .enrollment-card {
   background: #fff;
-  border-radius: 34px;
+  border-radius: 18px;
   padding: 32px 48px 22px;
-  box-shadow: 0 30px 65px #63442930;
+  border: 1px solid #dce4ee;
+  box-shadow: 0 20px 55px #162a450a;
 }
 .site-header {
   display: flex;
@@ -79,23 +65,17 @@ a {
   align-items: center;
   letter-spacing: -1px;
 }
-.brand-dot {
-  color: var(--accent);
-}
 .brand-mark {
-  font-family: Georgia, serif;
-  line-height: 1;
-  font-size: 50px;
-  font-style: italic;
-  position: relative;
-  margin-right: 13px;
-}
-.brand-mark span {
-  position: absolute;
-  font-size: 19px;
-  top: 0;
-  right: -8px;
-  color: var(--accent);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-right: 10px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
 }
 nav {
   display: flex;
@@ -124,7 +104,7 @@ nav a:hover {
   height: 7px;
   width: 7px;
   border-radius: 50%;
-  background: #7a9a72;
+  background: #2563eb;
 }
 .main-layout {
   display: grid;
@@ -184,13 +164,13 @@ h1 > span {
   text-align: left;
   position: relative;
   z-index: 1;
-  color: #747671;
+  color: #64748b;
 }
 .stepper button > span {
   width: 38px;
   height: 38px;
   border-radius: 12px;
-  border: 1px solid #e0e2dd;
+  border: 1px solid #cbd5e1;
   background: white;
   display: grid;
   place-items: center;
@@ -207,15 +187,15 @@ h1 > span {
   font-weight: 600;
 }
 .stepper button[aria-current] > span {
-  background: var(--green);
-  border-color: var(--green);
+  background: var(--primary);
+  border-color: var(--primary);
   color: #fff;
-  box-shadow: 0 4px 9px #344d4020;
+  box-shadow: 0 4px 9px #2563eb20;
 }
 .stepper .complete > span {
-  background: #e8efe6;
-  border-color: #e8efe6;
-  color: var(--green);
+  background: #eaf1ff;
+  border-color: #eaf1ff;
+  color: var(--primary);
 }
 .step-heading {
   display: flex;
@@ -274,8 +254,8 @@ select {
   width: 100%;
   min-height: 51px;
   padding: 13px 16px;
-  border: 1px solid transparent;
-  border-radius: 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
   background: var(--field);
   color: var(--ink);
   font-size: 14px;
@@ -284,14 +264,14 @@ select {
     border-color 0.2s;
 }
 input::placeholder {
-  color: #858682;
+  color: #738197;
 }
 input:focus,
 select:focus {
   outline: none;
-  border-color: #8b9e87;
-  background: #fafbf8;
-  box-shadow: 0 0 0 3px #8b9e871c;
+  border-color: #2563eb;
+  background: #fff;
+  box-shadow: 0 0 0 3px #2563eb1c;
 }
 input[aria-invalid="true"],
 select[aria-invalid="true"] {
@@ -316,9 +296,9 @@ select[aria-invalid="true"] {
   margin-top: 10px;
   padding: 14px 16px;
   border-radius: 13px;
-  background: #f8f9f5;
+  background: #eff6ff;
   font-size: 13px;
-  color: #576452;
+  color: #345780;
 }
 .help-note > span {
   font-size: 18px;
@@ -344,7 +324,7 @@ button {
 button:focus-visible,
 a:focus-visible,
 .table-wrapper:focus-visible {
-  outline: 3px solid #d46b45;
+  outline: 3px solid #2563eb;
   outline-offset: 4px;
 }
 .back-button {
@@ -367,10 +347,10 @@ a:focus-visible,
   margin-left: auto;
 }
 .primary-button {
-  background: var(--green);
+  background: var(--primary);
   color: white;
   border: 0;
-  border-radius: 25px;
+  border-radius: 8px;
   padding: 13px 23px;
   font-size: 13px;
   font-weight: 600;
@@ -380,7 +360,7 @@ a:focus-visible,
   transition: 0.2s;
 }
 .primary-button:hover {
-  background: #253e30;
+  background: #1d4ed8;
   transform: translateY(-2px);
 }
 .primary-button span {
@@ -389,92 +369,71 @@ a:focus-visible,
 }
 .feature-panel {
   min-height: 525px;
-  border-radius: 23px;
-  background: linear-gradient(155deg, #c9d0ad, #a5b18d 60%, #778c70);
-  position: relative;
-  overflow: hidden;
-  padding: 27px;
-  color: #253d30;
-  isolation: isolate;
+  border-radius: 12px;
+  background: #172b4d;
+  padding: 28px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
 }
 .feature-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #ffffff26;
 }
-.feature-symbol {
-  font-size: 45px;
-  line-height: 1;
-}
-.feature-top > span:last-child {
-  font-size: 10px;
+.guide-label {
+  font-size: 11px;
   font-weight: 650;
-  letter-spacing: 2px;
+  letter-spacing: 1.4px;
+  color: #b1c9ed;
+}
+.guide-number {
+  font-size: 12px;
+  color: #b1c9ed;
+  white-space: nowrap;
 }
 .feature-copy {
-  position: relative;
-  z-index: 2;
-  margin-top: 47px;
-}
-.mini-label {
-  font-size: 10px;
-  letter-spacing: 1.8px;
-  font-weight: 700;
+  margin-top: 34px;
 }
 .feature-copy h2 {
-  font-size: 42px;
-  line-height: 1.12;
-  letter-spacing: -1.8px;
-  margin: 14px 0 20px;
-  font-weight: 550;
-}
-.feature-copy h2 i {
-  font-family: Georgia, serif;
-  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  font-weight: 650;
 }
 .feature-copy p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #c5d3e6;
+  margin: 22px 0;
+}
+.guide-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 28px;
+}
+.guide-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-top: 1px solid #ffffff1f;
   font-size: 13px;
-  max-width: 190px;
-  line-height: 1.7;
 }
-.feature-tag {
-  display: inline-flex;
-  gap: 14px;
-  background: #f7f7e5;
-  border-radius: 24px;
-  font-size: 10px;
-  padding: 10px 14px;
-  margin-top: 10px;
-}
-.panel-curve {
-  position: absolute;
-  z-index: -1;
-  width: 370px;
-  height: 270px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #f8cc94, #f6ad82);
-  bottom: -140px;
-  left: -40px;
-  transform: rotate(-25deg);
-  box-shadow: 0 -1px 0 #ffe5bf;
-}
-.panel-orb {
-  position: absolute;
-  z-index: 1;
-  right: 22px;
-  bottom: 32px;
-  width: 77px;
-  height: 77px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 25%, #ffa48a, #ee6349 55%, #b44835);
-  box-shadow: 8px 15px 15px #51433245;
+.guide-list span {
+  color: #8cb7ff;
+  font-size: 11px;
+  font-weight: 600;
 }
 .panel-caption {
-  position: absolute;
-  bottom: 22px;
-  left: 27px;
-  font-size: 9px;
-  letter-spacing: 1.7px;
+  margin-top: auto;
+  padding-top: 22px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #a9bfdc;
 }
 .card-footer {
   border-top: 1px solid var(--line);
@@ -493,8 +452,8 @@ a:focus-visible,
   margin-top: 24px;
   padding: 28px 36px;
   border-radius: 25px;
-  background: #fffcf6ef;
-  box-shadow: 0 14px 40px #80503210;
+  background: #ffffff;
+  box-shadow: 0 14px 40px #162a4510;
 }
 .records-header {
   display: flex;
@@ -512,7 +471,7 @@ a:focus-visible,
 #record-count {
   font-size: 12px;
   border-radius: 18px;
-  background: #eeeee5;
+  background: #eaf1ff;
   padding: 7px 12px;
 }
 .table-wrapper {
@@ -528,14 +487,14 @@ table {
 th {
   font-size: 11px;
   letter-spacing: 0.3px;
-  color: #74756e;
+  color: #64748b;
   font-weight: 600;
-  background: #f3f2eb;
+  background: #f1f5f9;
 }
 th,
 td {
   padding: 13px 14px;
-  border-bottom: 1px solid #e9e7de;
+  border-bottom: 1px solid #e2e8f0;
 }
 td {
   overflow-wrap: anywhere;
@@ -624,7 +583,7 @@ dd {
     padding: 18px 12px;
   }
   .enrollment-card {
-    border-radius: 24px;
+    border-radius: 16px;
     padding: 23px;
   }
   .site-header {
@@ -639,9 +598,7 @@ dd {
   .brand {
     font-size: 20px;
   }
-  .brand-mark {
-    font-size: 40px;
-  }
+
   .main-layout {
     grid-template-columns: 1fr;
   }
@@ -662,7 +619,7 @@ dd {
   }
   .records-card {
     padding: 23px;
-    border-radius: 22px;
+    border-radius: 16px;
   }
   .card-footer {
     font-size: 10px;
