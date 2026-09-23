@@ -1,11 +1,11 @@
 ﻿:root {
-  --ink: #171717;
-  --muted: #64748b;
-  --accent: #c24d22;
-  --primary: #ffad80;
-  --line: #e2e8f0;
-  --field: #f8fafc;
-  --error: #b52d20;
+  --ink: #f5f5f5;
+  --muted: #b8b8bd;
+  --accent: #ff943d;
+  --primary: #ff8a2b;
+  --line: #48494d;
+  --field: #292a2d;
+  --error: #ff9b8e;
 }
 * {
   box-sizing: border-box;
@@ -19,7 +19,7 @@ body {
   padding: 64px 32px 36px;
   font-family: "Poppins", "Segoe UI", Arial, sans-serif;
   color: var(--ink);
-  background: #f1f5f9;
+  background: #202123;
   line-height: 1.5;
 }
 button,
@@ -46,11 +46,11 @@ a {
   margin: auto;
 }
 .enrollment-card {
-  background: #fff;
+  background: #343538;
   border-radius: 18px;
   padding: 32px 48px 22px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 20px 55px #0f172a0a;
+  border: 1px solid #48494d;
+  box-shadow: 0 20px 55px #00000030;
 }
 .site-header {
   display: flex;
@@ -72,8 +72,8 @@ a {
   height: 36px;
   margin-right: 10px;
   border-radius: 8px;
-  background: var(--ink);
-  color: white;
+  background: var(--primary);
+  color: #171717;
   font-size: 22px;
   font-weight: 700;
 }
@@ -104,7 +104,7 @@ nav a:hover {
   height: 7px;
   width: 7px;
   border-radius: 50%;
-  background: #c24d22;
+  background: #ff943d;
 }
 .main-layout {
   display: grid;
@@ -164,14 +164,14 @@ h1 > span {
   text-align: left;
   position: relative;
   z-index: 1;
-  color: #64748b;
+  color: #b8b8bd;
 }
 .stepper button > span {
   width: 38px;
   height: 38px;
   border-radius: 12px;
-  border: 1px solid #cbd5e1;
-  background: white;
+  border: 1px solid #5b5c60;
+  background: #292a2d;
   display: grid;
   place-items: center;
   font-size: 14px;
@@ -189,12 +189,12 @@ h1 > span {
 .stepper button[aria-current] > span {
   background: var(--primary);
   border-color: var(--primary);
-  color: var(--ink);
-  box-shadow: 0 4px 9px #f59a7020;
+  color: #171717;
+  box-shadow: 0 4px 9px #ff8a2b20;
 }
 .stepper .complete > span {
-  background: #fff0e7;
-  border-color: #fff0e7;
+  background: #493527;
+  border-color: #493527;
   color: var(--accent);
 }
 .step-heading {
@@ -254,7 +254,7 @@ select {
   width: 100%;
   min-height: 51px;
   padding: 13px 16px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #5b5c60;
   border-radius: 8px;
   background: var(--field);
   color: var(--ink);
@@ -264,19 +264,19 @@ select {
     border-color 0.2s;
 }
 input::placeholder {
-  color: #738197;
+  color: #a7a7ad;
 }
 input:focus,
 select:focus {
   outline: none;
-  border-color: #c24d22;
-  background: #fff;
-  box-shadow: 0 0 0 3px #f59a702b;
+  border-color: #ff943d;
+  background: #343538;
+  box-shadow: 0 0 0 3px #ff8a2b2b;
 }
 input[aria-invalid="true"],
 select[aria-invalid="true"] {
   border-color: var(--error);
-  background: #fff0eb;
+  background: #482d2a;
 }
 .error {
   display: block;
@@ -296,9 +296,9 @@ select[aria-invalid="true"] {
   margin-top: 10px;
   padding: 14px 16px;
   border-radius: 13px;
-  background: #f1f5f9;
+  background: #252628;
   font-size: 13px;
-  color: #475569;
+  color: #d0d0d4;
 }
 .help-note > span {
   font-size: 18px;
@@ -324,7 +324,7 @@ button {
 button:focus-visible,
 a:focus-visible,
 .table-wrapper:focus-visible {
-  outline: 3px solid #c24d22;
+  outline: 3px solid #ff943d;
   outline-offset: 4px;
 }
 .back-button {
@@ -348,7 +348,7 @@ a:focus-visible,
 }
 .primary-button {
   background: var(--primary);
-  color: var(--ink);
+  color: #171717;
   border: 0;
   border-radius: 8px;
   padding: 13px 23px;
@@ -360,7 +360,7 @@ a:focus-visible,
   transition: 0.2s;
 }
 .primary-button:hover {
-  background: #ff975f;
+  background: #ffa452;
   transform: translateY(-2px);
 }
 .primary-button span {
@@ -370,7 +370,7 @@ a:focus-visible,
 .feature-panel {
   min-height: 525px;
   border-radius: 12px;
-  background: #334155;
+  background: #242527;
   padding: 28px;
   color: #fff;
   display: flex;
@@ -388,11 +388,11 @@ a:focus-visible,
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 1.4px;
-  color: #fdba94;
+  color: #ffac6b;
 }
 .guide-number {
   font-size: 12px;
-  color: #fdba94;
+  color: #ffac6b;
   white-space: nowrap;
 }
 .feature-copy {
@@ -407,7 +407,7 @@ a:focus-visible,
 .feature-copy p {
   font-size: 14px;
   line-height: 1.8;
-  color: #e2e8f0;
+  color: #d1d1d4;
   margin: 22px 0;
 }
 .guide-list {
@@ -424,7 +424,7 @@ a:focus-visible,
   font-size: 13px;
 }
 .guide-list span {
-  color: #ffad80;
+  color: #ff8a2b;
   font-size: 11px;
   font-weight: 600;
 }
@@ -433,7 +433,7 @@ a:focus-visible,
   padding-top: 22px;
   font-size: 10px;
   letter-spacing: 1px;
-  color: #cbd5e1;
+  color: #b8b8bd;
 }
 .card-footer {
   border-top: 1px solid var(--line);
@@ -452,8 +452,8 @@ a:focus-visible,
   margin-top: 24px;
   padding: 28px 36px;
   border-radius: 25px;
-  background: #ffffff;
-  box-shadow: 0 14px 40px #0f172a10;
+  background: #343538;
+  box-shadow: 0 14px 40px #00000018;
 }
 .records-header {
   display: flex;
@@ -471,7 +471,7 @@ a:focus-visible,
 #record-count {
   font-size: 12px;
   border-radius: 18px;
-  background: #fff0e7;
+  background: #493527;
   padding: 7px 12px;
 }
 .table-wrapper {
@@ -487,14 +487,14 @@ table {
 th {
   font-size: 11px;
   letter-spacing: 0.3px;
-  color: #64748b;
+  color: #b8b8bd;
   font-weight: 600;
-  background: #f1f5f9;
+  background: #252628;
 }
 th,
 td {
   padding: 13px 14px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid #48494d;
 }
 td {
   overflow-wrap: anywhere;
@@ -533,8 +533,8 @@ dd {
   overflow-wrap: anywhere;
 }
 .success-message {
-  background: #edf4e8;
-  color: #34572b;
+  background: #293c31;
+  color: #b6e1c3;
   border-radius: 14px;
   padding: 15px;
   margin-top: 20px;
