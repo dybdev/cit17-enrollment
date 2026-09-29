@@ -3,361 +3,146 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Complete your student enrollment in five quick steps."
-    />
-    <meta name="theme-color" content="#ff8a2b" />
     <title>Student Enrollment</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css?v=2" />
+    <link rel="stylesheet" href="style.css?v=3" />
   </head>
   <body>
-    <header class="topbar">
-      <a class="brand" href="index.html" aria-label="Campus Enroll home"
-        ><span class="brand-mark" aria-hidden="true">C</span>Campus Enroll</a
-      >
-      <a class="records-link" href="#records"
-        >My records <span id="record-badge" class="badge">0</span></a
-      >
-    </header>
+    <!-- ========== ENROLLMENT FORM ========== -->
+    <div class="container">
+      <h1>Student Enrollment</h1>
+      <p class="subtitle">Fill out the form in 5 easy steps.</p>
 
-    <main class="page">
-      <section class="hero" aria-labelledby="page-title">
-        <p class="hello">Hi, student! 👋</p>
-        <h1 id="page-title">Enroll in 5 quick steps</h1>
-        <p class="intro">
-          It only takes a couple of minutes. Keep your student ID handy.
-        </p>
-      </section>
+      <!-- Progress: "Step 1 of 5" and a bar that fills up -->
+      <p class="step-text" id="stepText">Step 1 of 5</p>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
 
-      <section class="card" id="enrollment" aria-label="Enrollment form">
-        <div class="progress">
-          <div class="progress-top">
-            <p id="step-count">Step 1 of 5</p>
-            <p id="step-label" class="step-label">Student ID</p>
-          </div>
-          <div
-            class="progress-track"
-            role="progressbar"
-            aria-label="Enrollment progress"
-            aria-valuemin="1"
-            aria-valuemax="5"
-            aria-valuenow="1"
-          >
-            <span id="progress-fill"></span>
-          </div>
-          <ol class="stepper" aria-label="Enrollment steps">
-            <li>
-              <button type="button" data-step="0" aria-current="step">
-                <span>1</span><small>ID</small>
-              </button>
-            </li>
-            <li>
-              <button type="button" data-step="1">
-                <span>2</span><small>Name</small>
-              </button>
-            </li>
-            <li>
-              <button type="button" data-step="2">
-                <span>3</span><small>Contact</small>
-              </button>
-            </li>
-            <li>
-              <button type="button" data-step="3">
-                <span>4</span><small>Program</small>
-              </button>
-            </li>
-            <li>
-              <button type="button" data-step="4">
-                <span>5</span><small>Review</small>
-              </button>
-            </li>
-          </ol>
+      <form id="enrollForm" novalidate>
+        <!-- STEP 1: Student ID -->
+        <div class="step" id="step1">
+          <h2>Student ID</h2>
+          <label for="studentId">Student ID *</label>
+          <input type="text" id="studentId" placeholder="e.g. 2026-00123" />
+          <small class="error" id="studentIdError"></small>
         </div>
 
-        <div
-          id="success-message"
-          class="success-message"
-          role="status"
-          hidden
-        ></div>
+        <!-- STEP 2: Name -->
+        <div class="step hidden" id="step2">
+          <h2>Your Name</h2>
 
-        <form id="enrollment-form" novalidate>
-          <h2 id="step-title" tabindex="-1">Let’s start with you</h2>
+          <label for="prefix">Prefix (optional)</label>
+          <input type="text" id="prefix" placeholder="e.g. Ms." />
+          <small class="error" id="prefixError"></small>
 
-          <section
-            class="form-step"
-            data-panel="0"
-            aria-label="Student identification"
-          >
-            <p class="step-description">
-              Type the student ID your school gave you.
-            </p>
-            <div class="field">
-              <label for="student-id">Student ID</label
-              ><input
-                id="student-id"
-                name="studentId"
-                type="text"
-                required
-                minlength="5"
-                inputmode="text"
-                placeholder="e.g. 2026-00123"
-                aria-describedby="student-id-hint student-id-error"
-              /><span class="hint" id="student-id-hint"
-                >At least 5 characters.</span
-              ><span class="error" id="student-id-error"></span>
-            </div>
-          </section>
+          <label for="firstName">First Name *</label>
+          <input type="text" id="firstName" placeholder="First name" />
+          <small class="error" id="firstNameError"></small>
 
-          <section
-            class="form-step"
-            data-panel="1"
-            aria-label="Student name"
-            hidden
-          >
-            <p class="step-description">
-              Use the name on your school records.
-            </p>
-            <div class="form-grid">
-              <div class="field">
-                <label for="first-name">First name</label
-                ><input
-                  id="first-name"
-                  name="firstName"
-                  required
-                  minlength="3"
-                  placeholder="Juan"
-                  autocomplete="given-name"
-                  aria-describedby="first-name-error"
-                /><span class="error" id="first-name-error"></span>
-              </div>
-              <div class="field">
-                <label for="last-name">Last name</label
-                ><input
-                  id="last-name"
-                  name="lastName"
-                  required
-                  minlength="2"
-                  placeholder="Dela Cruz"
-                  autocomplete="family-name"
-                  aria-describedby="last-name-error"
-                /><span class="error" id="last-name-error"></span>
-              </div>
-            </div>
-            <details class="more-fields">
-              <summary>Add prefix, middle name or suffix</summary>
-              <div class="form-grid three">
-                <div class="field">
-                  <label for="prefix">Prefix <em>optional</em></label
-                  ><input
-                    id="prefix"
-                    name="prefix"
-                    minlength="2"
-                    placeholder="Ms."
-                    autocomplete="honorific-prefix"
-                    aria-describedby="prefix-error"
-                  /><span class="error" id="prefix-error"></span>
-                </div>
-                <div class="field">
-                  <label for="middle-name">Middle name <em>optional</em></label
-                  ><input
-                    id="middle-name"
-                    name="middleName"
-                    minlength="2"
-                    placeholder="Santos"
-                    autocomplete="additional-name"
-                    aria-describedby="middle-name-error"
-                  /><span class="error" id="middle-name-error"></span>
-                </div>
-                <div class="field">
-                  <label for="suffix">Suffix <em>optional</em></label
-                  ><input
-                    id="suffix"
-                    name="suffix"
-                    minlength="2"
-                    placeholder="Jr."
-                    autocomplete="honorific-suffix"
-                    aria-describedby="suffix-error"
-                  /><span class="error" id="suffix-error"></span>
-                </div>
-              </div>
-            </details>
-          </section>
+          <label for="middleName">Middle Name (optional)</label>
+          <input type="text" id="middleName" placeholder="Middle name" />
+          <small class="error" id="middleNameError"></small>
 
-          <section
-            class="form-step"
-            data-panel="2"
-            aria-label="Contact information"
-            hidden
-          >
-            <p class="step-description">
-              We’ll send enrollment updates to this email.
-            </p>
-            <div class="field">
-              <label for="email">Email address</label
-              ><input
-                id="email"
-                name="email"
-                type="email"
-                required
-                inputmode="email"
-                placeholder="you@example.com"
-                autocomplete="email"
-                aria-describedby="email-error"
-              /><span class="error" id="email-error"></span>
-            </div>
-          </section>
+          <label for="lastName">Last Name *</label>
+          <input type="text" id="lastName" placeholder="Last name" />
+          <small class="error" id="lastNameError"></small>
 
-          <section
-            class="form-step"
-            data-panel="3"
-            aria-label="Academic information"
-            hidden
-          >
-            <p class="step-description">Tap your course and year level.</p>
-            <fieldset class="choice-group" id="course" data-label="course">
-              <legend>Course</legend>
-              <div class="choices">
-                <label class="choice"
-                  ><input type="radio" name="course" value="BSIT" required
-                  /><span><b>BSIT</b><small>Information Technology</small></span></label
-                >
-                <label class="choice"
-                  ><input type="radio" name="course" value="BSCS" /><span
-                    ><b>BSCS</b><small>Computer Science</small></span
-                  ></label
-                >
-                <label class="choice"
-                  ><input type="radio" name="course" value="BMMA" /><span
-                    ><b>BMMA</b><small>Multimedia Arts</small></span
-                  ></label
-                >
-                <label class="choice"
-                  ><input type="radio" name="course" value="BSAIS" /><span
-                    ><b>BSAIS</b><small>Accounting Info Systems</small></span
-                  ></label
-                >
-              </div>
-              <span class="error" id="course-error"></span>
-            </fieldset>
+          <label for="suffix">Suffix (optional)</label>
+          <input type="text" id="suffix" placeholder="e.g. Jr." />
+          <small class="error" id="suffixError"></small>
+        </div>
 
-            <fieldset class="choice-group" id="major" data-label="BSIT major" hidden>
-              <legend>BSIT major</legend>
-              <div class="choices pills">
-                <label class="choice"
-                  ><input type="radio" name="major" value="Net Sec" /><span
-                    ><b>Net Sec</b></span
-                  ></label
-                >
-                <label class="choice"
-                  ><input type="radio" name="major" value="Web Tech" /><span
-                    ><b>Web Tech</b></span
-                  ></label
-                >
-                <label class="choice"
-                  ><input type="radio" name="major" value="ERP" /><span
-                    ><b>ERP</b></span
-                  ></label
-                >
-              </div>
-              <span class="error" id="major-error"></span>
-            </fieldset>
+        <!-- STEP 3: Email -->
+        <div class="step hidden" id="step3">
+          <h2>Contact</h2>
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" placeholder="you@example.com" />
+          <small class="error" id="emailError"></small>
+        </div>
 
-            <fieldset class="choice-group" id="year" data-label="year level">
-              <legend>Year level</legend>
-              <div class="choices pills">
-                <label class="choice"
-                  ><input type="radio" name="year" value="1st Year" required
-                  /><span><b>1st Year</b></span></label
-                >
-                <label class="choice"
-                  ><input type="radio" name="year" value="2nd Year" /><span
-                    ><b>2nd Year</b></span
-                  ></label
-                >
-                <label class="choice"
-                  ><input type="radio" name="year" value="3rd Year" /><span
-                    ><b>3rd Year</b></span
-                  ></label
-                >
-              </div>
-              <span class="error" id="year-error"></span>
-            </fieldset>
-          </section>
+        <!-- STEP 4: Course, Major, Year -->
+        <div class="step hidden" id="step4">
+          <h2>Academic Info</h2>
 
-          <section
-            class="form-step"
-            data-panel="4"
-            aria-label="Review enrollment"
-            hidden
-          >
-            <p class="step-description">
-              Looks good? Tap <b>Edit</b> to fix anything, then submit.
-            </p>
-            <dl id="review-details" class="review-list"></dl>
-          </section>
+          <label for="course">Course *</label>
+          <select id="course">
+            <option value="">-- Select course --</option>
+            <option value="BSIT">BSIT</option>
+            <option value="BSCS">BSCS</option>
+            <option value="BMMA">BMMA</option>
+            <option value="BSAIS">BSAIS</option>
+          </select>
+          <small class="error" id="courseError"></small>
 
-          <div class="form-actions">
-            <button type="button" class="back-button" id="back" disabled>
-              Back
-            </button>
-            <button type="submit" class="primary-button" id="next">
-              Continue
-            </button>
+          <!-- Major only shows when BSIT is selected -->
+          <div id="majorBox" class="hidden">
+            <label for="major">BSIT Major *</label>
+            <select id="major">
+              <option value="">-- Select major --</option>
+              <option value="Net Sec">Net Sec</option>
+              <option value="Web Tech">Web Tech</option>
+              <option value="ERP">ERP</option>
+            </select>
+            <small class="error" id="majorError"></small>
           </div>
-        </form>
-        <noscript
-          ><p class="error">
-            Please enable JavaScript to complete this enrollment form.
-          </p></noscript
-        >
-      </section>
 
-      <section class="card records" id="records" aria-labelledby="records-title">
-        <div class="records-header">
-          <h2 id="records-title">Submitted enrollments</h2>
-          <span id="record-count" class="badge soft">0 enrollments</span>
+          <label for="year">Year Level *</label>
+          <select id="year">
+            <option value="">-- Select year level --</option>
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+          </select>
+          <small class="error" id="yearError"></small>
         </div>
-        <div
-          class="table-wrapper"
-          tabindex="0"
-          role="region"
-          aria-label="Submitted student records"
-        >
-          <table>
-            <thead>
-              <tr>
-                <th>Student ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Course</th>
-                <th>Major</th>
-                <th>Year level</th>
-              </tr>
-            </thead>
-            <tbody id="studentTableBody">
-              <tr id="emptyRow">
-                <td colspan="6" class="empty-state">
-                  📝 Nothing here yet. Your enrollments will show up here.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="records-note">
-          Saved for this visit only. Refreshing the page clears the list.
-        </p>
-      </section>
-    </main>
 
-    <footer class="footer">CIT17 · Student Enrollment</footer>
-    <script src="script.js?v=2"></script>
+        <!-- STEP 5: Review -->
+        <div class="step hidden" id="step5">
+          <h2>Review</h2>
+          <p class="note">Please check your details before submitting.</p>
+          <div id="reviewBox"></div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="buttons">
+          <button type="button" id="backBtn" class="btn btn-light">Back</button>
+          <button type="submit" id="nextBtn" class="btn">Next</button>
+        </div>
+      </form>
+
+      <p class="success hidden" id="successMsg">
+        Enrollment submitted successfully!
+      </p>
+    </div>
+
+    <!-- ========== SUBMITTED STUDENTS TABLE ========== -->
+    <div class="container">
+      <h2>Submitted Students</h2>
+      <div class="table-box">
+        <table>
+          <thead>
+            <tr>
+              <th>Student ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Course</th>
+              <th>Major</th>
+              <th>Year Level</th>
+            </tr>
+          </thead>
+          <tbody id="studentTable">
+            <tr id="emptyRow">
+              <td colspan="6">No students enrolled yet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="script.js?v=3"></script>
   </body>
 </html>

@@ -1,210 +1,251 @@
-const form = document.querySelector("#enrollment-form");
-const panels = [...document.querySelectorAll("[data-panel]")];
-const stepButtons = [...document.querySelectorAll("[data-step]")];
-const titles = [
-  "Let’s start with you",
-  "What’s your name?",
-  "How can we reach you?",
-  "Pick your program",
-  "Almost done!",
-];
-const labels = ["Student ID", "Your name", "Contact", "Program", "Review"];
-const inputs = [...form.querySelectorAll('input:not([type="radio"])')];
-const groups = [...form.querySelectorAll(".choice-group")];
-const majorGroup = document.querySelector("#major");
-const lastStep = panels.length - 1;
-let currentStep = 0;
-let enrollmentCount = 0;
+// ========== VARIABLES ==========
+let currentStep = 1; // the step the student is on
+const totalSteps = 5;
 
-function setError(target, message) {
-  const error = document.querySelector(`#${target.id}-error`);
-  error.textContent = message;
-  if (message) target.setAttribute("aria-invalid", "true");
-  else target.removeAttribute("aria-invalid");
+const form = document.getElementById("enrollForm");
+const backBtn = document.getElementById("backBtn");
+const nextBtn = document.getElementById("nextBtn");
+const courseSelect = document.getElementById("course");
+const majorBox = document.getElementById("majorBox");
+
+// ========== HELPER FUNCTIONS ==========
+
+// Get the text a student typed (without extra spaces)
+function getValue(id) {
+  return document.getElementById(id).value.trim();
 }
-function checkedValue(group) {
-  return group.querySelector("input:checked")?.value ?? "";
+
+// Show a red error message under a field
+function showError(id, message) {
+  document.getElementById(id).classList.add("input-error");
+  document.getElementById(id + "Error").textContent = message;
 }
-function validateInput(input) {
-  const value = input.value.trim();
-  let message = "";
-  if (input.required && !value) message = "Please fill this in.";
-  else if (value && input.minLength > 0 && value.length < input.minLength)
-    message = `Needs at least ${input.minLength} characters.`;
-  else if (
-    input.type === "email" &&
-    value &&
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-  )
-    message = "That doesn’t look like an email. Try you@example.com.";
-  setError(input, message);
-  return !message;
+
+// Remove the error message under a field
+function clearError(id) {
+  document.getElementById(id).classList.remove("input-error");
+  document.getElementById(id + "Error").textContent = "";
 }
-function validateGroup(group) {
-  const message =
-    !group.hidden && !checkedValue(group)
-      ? `Please choose your ${group.dataset.label}.`
-      : "";
-  setError(group, message);
-  return !message;
-}
-function validateStep(step) {
-  const panel = panels[step];
-  const results = [
-    ...inputs.filter((input) => panel.contains(input)).map(validateInput),
-    ...groups.filter((group) => panel.contains(group)).map(validateGroup),
-  ];
-  const valid = results.every(Boolean);
-  if (!valid) {
-    const invalid = panel.querySelector('[aria-invalid="true"]');
-    invalid.closest("details")?.setAttribute("open", "");
-    (invalid.matches("fieldset")
-      ? invalid.querySelector("input")
-      : invalid
-    ).focus();
+
+// Check a required field. Returns true if it is OK.
+function checkRequired(id, minLength) {
+  const value = getValue(id);
+  if (value === "") {
+    showError(id, "This field is required.");
+    return false;
   }
-  return valid;
+  if (value.length < minLength) {
+    showError(id, "Must be at least " + minLength + " characters.");
+    return false;
+  }
+  clearError(id);
+  return true;
 }
-function enrollmentData() {
-  const values = Object.fromEntries(
-    [...new FormData(form)].map(([key, value]) => [key, value.trim()]),
-  );
+
+// Check an optional field. Empty is OK, but if filled it needs minLength.
+function checkOptional(id, minLength) {
+  const value = getValue(id);
+  if (value !== "" && value.length < minLength) {
+    showError(id, "Must be at least " + minLength + " characters.");
+    return false;
+  }
+  clearError(id);
+  return true;
+}
+
+// ========== VALIDATION FOR EACH STEP ==========
+function validateStep(step) {
+  if (step === 1) {
+    return checkRequired("studentId", 5);
+  }
+
+  if (step === 2) {
+    // Run every check so all errors show at once
+    const prefixOk = checkOptional("prefix", 2);
+    const firstOk = checkRequired("firstName", 3);
+    const middleOk = checkOptional("middleName", 2);
+    const lastOk = checkRequired("lastName", 2);
+    const suffixOk = checkOptional("suffix", 2);
+    return prefixOk && firstOk && middleOk && lastOk && suffixOk;
+  }
+
+  if (step === 3) {
+    const email = getValue("email");
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email === "") {
+      showError("email", "This field is required.");
+      return false;
+    }
+    if (!emailPattern.test(email)) {
+      showError("email", "Please enter a valid email (you@example.com).");
+      return false;
+    }
+    clearError("email");
+    return true;
+  }
+
+  if (step === 4) {
+    const courseOk = checkRequired("course", 1);
+    const yearOk = checkRequired("year", 1);
+    let majorOk = true;
+    if (getValue("course") === "BSIT") {
+      majorOk = checkRequired("major", 1);
+    }
+    return courseOk && majorOk && yearOk;
+  }
+
+  return true; // step 5 (review) has nothing to check
+}
+
+// ========== SHOW A STEP ==========
+function showStep(step) {
+  // Hide all steps, then show the current one
+  for (let i = 1; i <= totalSteps; i++) {
+    document.getElementById("step" + i).classList.add("hidden");
+  }
+  document.getElementById("step" + step).classList.remove("hidden");
+
+  // Update the "Step X of 5" text and the progress bar
+  document.getElementById("stepText").textContent =
+    "Step " + step + " of " + totalSteps;
+  document.getElementById("progressFill").style.width =
+    (step / totalSteps) * 100 + "%";
+
+  // Hide Back on step 1, and change Next to Submit on the last step
+  backBtn.style.visibility = step === 1 ? "hidden" : "visible";
+  nextBtn.textContent = step === totalSteps ? "Submit" : "Next";
+
+  if (step === totalSteps) {
+    showReview();
+  }
+}
+
+// ========== COLLECT THE STUDENT'S DATA ==========
+function getStudent() {
+  // Join the name parts, skipping empty ones
+  const nameParts = [
+    getValue("prefix"),
+    getValue("firstName"),
+    getValue("middleName"),
+    getValue("lastName"),
+    getValue("suffix"),
+  ];
+  const fullName = nameParts.filter((part) => part !== "").join(" ");
+
   return {
-    "Student ID": values.studentId,
-    Name: [
-      values.prefix,
-      values.firstName,
-      values.middleName,
-      values.lastName,
-      values.suffix,
-    ]
-      .filter(Boolean)
-      .join(" "),
-    Email: values.email,
-    Course: values.course,
-    Major: values.course === "BSIT" ? values.major : "—",
-    "Year level": values.year,
+    studentId: getValue("studentId"),
+    name: fullName,
+    email: getValue("email"),
+    course: getValue("course"),
+    major: getValue("course") === "BSIT" ? getValue("major") : "N/A",
+    year: getValue("year"),
   };
 }
-const reviewSteps = {
-  "Student ID": 0,
-  Name: 1,
-  Email: 2,
-  Course: 3,
-  Major: 3,
-  "Year level": 3,
-};
-function renderReview() {
-  const review = document.querySelector("#review-details");
-  review.replaceChildren();
-  Object.entries(enrollmentData()).forEach(([label, value]) => {
-    if (label === "Major" && value === "—") return;
-    const row = document.createElement("div");
-    const term = document.createElement("dt");
-    const detail = document.createElement("dd");
-    const edit = document.createElement("button");
-    term.textContent = label;
-    detail.textContent = value;
-    edit.type = "button";
-    edit.className = "edit-button";
-    edit.textContent = "Edit";
-    edit.setAttribute("aria-label", `Edit ${label}`);
-    edit.addEventListener("click", () => showStep(reviewSteps[label]));
-    row.append(term, detail, edit);
-    review.append(row);
-  });
+
+// ========== REVIEW STEP ==========
+function showReview() {
+  const student = getStudent();
+  const reviewBox = document.getElementById("reviewBox");
+
+  reviewBox.innerHTML = "";
+  addReviewItem(reviewBox, "Student ID", student.studentId);
+  addReviewItem(reviewBox, "Name", student.name);
+  addReviewItem(reviewBox, "Email", student.email);
+  addReviewItem(reviewBox, "Course", student.course);
+  addReviewItem(reviewBox, "Major", student.major);
+  addReviewItem(reviewBox, "Year Level", student.year);
 }
-function showStep(step, focus = true) {
-  currentStep = step;
-  panels.forEach((panel, index) => {
-    panel.hidden = index !== step;
-  });
-  stepButtons.forEach((button, index) => {
-    button.classList.toggle("complete", index < step);
-    if (index === step) button.setAttribute("aria-current", "step");
-    else button.removeAttribute("aria-current");
-  });
-  document.querySelector("#step-count").textContent =
-    `Step ${step + 1} of ${panels.length}`;
-  document.querySelector("#step-label").textContent = labels[step];
-  document.querySelector("#progress-fill").style.width =
-    `${((step + 1) / panels.length) * 100}%`;
-  document
-    .querySelector(".progress-track")
-    .setAttribute("aria-valuenow", step + 1);
-  document.querySelector("#step-title").textContent = titles[step];
-  document.querySelector("#back").disabled = step === 0;
-  document.querySelector("#next").textContent =
-    step === lastStep ? "Submit enrollment" : "Continue";
-  if (step === lastStep) renderReview();
-  if (focus) document.querySelector("#step-title").focus();
+
+function addReviewItem(box, label, value) {
+  const row = document.createElement("div");
+  row.className = "review-item";
+
+  const labelEl = document.createElement("span");
+  labelEl.textContent = label;
+
+  const valueEl = document.createElement("strong");
+  valueEl.textContent = value;
+
+  row.append(labelEl, valueEl);
+  box.append(row);
 }
-function updateMajor() {
-  const isBSIT = checkedValue(document.querySelector("#course")) === "BSIT";
-  majorGroup.hidden = !isBSIT;
-  if (!isBSIT) {
-    majorGroup.querySelectorAll("input").forEach((radio) => {
-      radio.checked = false;
-    });
-    setError(majorGroup, "");
+
+// ========== ADD STUDENT TO THE TABLE ==========
+function addToTable(student) {
+  // Remove the "No students yet" row the first time
+  const emptyRow = document.getElementById("emptyRow");
+  if (emptyRow) {
+    emptyRow.remove();
   }
-}
-inputs.forEach((input) =>
-  input.addEventListener("input", () => setError(input, "")),
-);
-groups.forEach((group) =>
-  group.addEventListener("change", () => setError(group, "")),
-);
-document.querySelector("#course").addEventListener("change", updateMajor);
-document.querySelector("#back").addEventListener("click", () => {
-  if (currentStep > 0) showStep(currentStep - 1);
-});
-stepButtons.forEach((button) =>
-  button.addEventListener("click", () => {
-    const target = Number(button.dataset.step);
-    if (target > currentStep) {
-      for (let step = 0; step < target; step++) {
-        showStep(step, false);
-        if (!validateStep(step)) return;
-      }
-    }
-    showStep(target);
-  }),
-);
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  document.querySelector("#success-message").hidden = true;
-  if (!validateStep(currentStep)) return;
-  if (currentStep < lastStep) {
-    showStep(currentStep + 1);
-    return;
-  }
-  for (let step = 0; step < lastStep; step++) {
-    showStep(step, false);
-    if (!validateStep(step)) return;
-  }
-  const data = enrollmentData();
+
   const row = document.createElement("tr");
-  Object.entries(data).forEach(([label, value]) => {
+  const values = [
+    student.studentId,
+    student.name,
+    student.email,
+    student.course,
+    student.major,
+    student.year,
+  ];
+  values.forEach((value) => {
     const cell = document.createElement("td");
-    cell.dataset.label = label;
     cell.textContent = value;
     row.append(cell);
   });
-  document.querySelector("#emptyRow")?.remove();
-  document.querySelector("#studentTableBody").append(row);
-  enrollmentCount++;
-  document.querySelector("#record-count").textContent =
-    `${enrollmentCount} enrollment${enrollmentCount === 1 ? "" : "s"}`;
-  document.querySelector("#record-badge").textContent = enrollmentCount;
+
+  document.getElementById("studentTable").append(row);
+}
+
+// ========== BUTTON CLICKS ==========
+// The Next button is a submit button, so clicking it
+// (or pressing Enter in a field) runs this code
+form.addEventListener("submit", (event) => {
+  event.preventDefault(); // stop the page from reloading
+  document.getElementById("successMsg").classList.add("hidden");
+
+  // Stop if the current step has errors
+  if (!validateStep(currentStep)) {
+    return;
+  }
+
+  // Go to the next step
+  if (currentStep < totalSteps) {
+    currentStep++;
+    showStep(currentStep);
+    return;
+  }
+
+  // Last step: submit the enrollment
+  addToTable(getStudent());
   form.reset();
-  updateMajor();
-  inputs.forEach((input) => setError(input, ""));
-  groups.forEach((group) => setError(group, ""));
-  showStep(0);
-  const success = document.querySelector("#success-message");
-  success.textContent = `🎉 You’re enrolled, ${data.Name}! Your details are saved in My records below.`;
-  success.hidden = false;
+  majorBox.classList.add("hidden");
+  currentStep = 1;
+  showStep(currentStep);
+  document.getElementById("successMsg").classList.remove("hidden");
 });
-updateMajor();
-showStep(0, false);
+
+backBtn.addEventListener("click", () => {
+  if (currentStep > 1) {
+    currentStep--;
+    showStep(currentStep);
+  }
+});
+
+// Show the Major dropdown only for BSIT
+courseSelect.addEventListener("change", () => {
+  if (courseSelect.value === "BSIT") {
+    majorBox.classList.remove("hidden");
+  } else {
+    majorBox.classList.add("hidden");
+    document.getElementById("major").value = "";
+    clearError("major");
+  }
+});
+
+// Clear a field's error as soon as the student types or picks something
+document.querySelectorAll("input, select").forEach((field) => {
+  field.addEventListener("input", () => clearError(field.id));
+});
+
+// Start on step 1
+showStep(currentStep);
