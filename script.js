@@ -1,4 +1,4 @@
-// ========== VARIABLES ==========
+//VARIABLES
 let currentStep = 1; // the step the student is on
 const totalSteps = 5;
 
@@ -7,7 +7,7 @@ const backBtn = document.getElementById("backBtn");
 const nextBtn = document.getElementById("nextBtn");
 const majorBox = document.getElementById("majorBox");
 
-// ========== HELPER FUNCTIONS ==========
+//HELPER FUNCTIONS
 
 // Get the text a student typed (without extra spaces)
 function getValue(id) {
@@ -62,7 +62,7 @@ function checkOptional(id, minLength) {
   return true;
 }
 
-// ========== VALIDATION FOR EACH STEP ==========
+//VALIDATION FOR EACH STEP
 function validateStep(step) {
   if (step === 1) {
     return checkRequired("studentId", 5);
@@ -106,7 +106,7 @@ function validateStep(step) {
   return true; // step 5 (review) has nothing to check
 }
 
-// ========== SHOW A STEP ==========
+//SHOW A STEP
 function showStep(step) {
   // Hide all steps, then show the current one
   for (let i = 1; i <= totalSteps; i++) {
@@ -129,7 +129,7 @@ function showStep(step) {
   }
 }
 
-// ========== COLLECT THE STUDENT'S DATA ==========
+//COLLECT THE STUDENT'S DATA
 function getStudent() {
   // Join the name parts, skipping empty ones
   const nameParts = [
@@ -151,7 +151,7 @@ function getStudent() {
   };
 }
 
-// ========== REVIEW STEP ==========
+//REVIEW STEP
 function showReview() {
   const student = getStudent();
   const reviewBox = document.getElementById("reviewBox");
@@ -179,7 +179,7 @@ function addReviewItem(box, label, value) {
   box.append(row);
 }
 
-// ========== ADD STUDENT TO THE TABLE ==========
+//ADD STUDENT TO THE TABLE
 function addToTable(student) {
   // Remove the "No students yet" row the first time
   const emptyRow = document.getElementById("emptyRow");
@@ -205,7 +205,7 @@ function addToTable(student) {
   document.getElementById("studentTable").append(row);
 }
 
-// ========== BUTTON CLICKS ==========
+// BUTTON CLICKS
 // The Next button is a submit button, so clicking it
 // (or pressing Enter in a field) runs this code
 form.addEventListener("submit", (event) => {
@@ -243,7 +243,7 @@ backBtn.addEventListener("click", () => {
   }
 });
 
-// ========== CUSTOM DROPDOWNS ==========
+// CUSTOM DROPDOWNS
 // Each dropdown has: a hidden input (stores the value),
 // a button (shows the choice) and a list of option buttons.
 

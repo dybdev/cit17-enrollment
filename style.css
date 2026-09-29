@@ -1,4 +1,4 @@
-/* ========== BASIC PAGE STYLE ========== */
+/* BASIC PAGE STYLE */
 * {
   box-sizing: border-box;
 }
@@ -37,7 +37,7 @@ h2 {
   color: #666;
 }
 
-/* ========== PROGRESS BAR ========== */
+/* PROGRESS BAR*/
 .step-text {
   margin: 0 0 6px;
   font-size: 14px;
@@ -60,7 +60,7 @@ h2 {
   transition: width 0.3s;
 }
 
-/* ========== FORM FIELDS ========== */
+/*FORM FIELDS*/
 label {
   display: block;
   margin: 14px 0 6px;
@@ -100,7 +100,7 @@ input:focus {
   display: none;
 }
 
-/* ========== CUSTOM DROPDOWN ========== */
+/*CUSTOM DROPDOWN*/
 .dropdown {
   position: relative; /* so the list can sit right under the button */
 }
@@ -215,7 +215,7 @@ input:focus {
   border-color: #d93025;
 }
 
-/* ========== REVIEW STEP ========== */
+/*REVIEW STEP*/
 .review-item {
   display: flex;
   justify-content: space-between;
@@ -228,7 +228,7 @@ input:focus {
   color: #666;
 }
 
-/* ========== BUTTONS ========== */
+/*BUTTONS*/
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -268,7 +268,7 @@ input:focus {
   border-radius: 8px;
 }
 
-/* ========== TABLE ========== */
+/*TABLE*/
 .table-box {
   overflow-x: auto;
 }
@@ -296,7 +296,7 @@ th {
   color: #888;
 }
 
-/* ========== LESS MOTION ========== */
+/*LESS MOTION*/
 /* Turn off animations for people who prefer less motion */
 @media (prefers-reduced-motion: reduce) {
   * {
@@ -304,7 +304,7 @@ th {
   }
 }
 
-/* ========== SMALL SCREENS (PHONES) ========== */
+/*SMALL SCREENS (PHONES)*/
 @media (max-width: 480px) {
   .container {
     padding: 20px 16px;
