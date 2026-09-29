@@ -1,60 +1,73 @@
-﻿const form = document.querySelector("#enrollment-form");
+const form = document.querySelector("#enrollment-form");
 const panels = [...document.querySelectorAll("[data-panel]")];
 const stepButtons = [...document.querySelectorAll("[data-step]")];
 const titles = [
-  "Let’s start with you.",
+  "Let’s start with you",
   "What’s your name?",
-  "Let’s stay connected.",
-  "Choose your path.",
-  "Ready for your next chapter?",
+  "How can we reach you?",
+  "Pick your program",
+  "Almost done!",
 ];
-const fields = [...form.querySelectorAll("input, select")];
-const course = document.querySelector("#course");
-const major = document.querySelector("#major");
+const labels = ["Student ID", "Your name", "Contact", "Program", "Review"];
+const inputs = [...form.querySelectorAll('input:not([type="radio"])')];
+const groups = [...form.querySelectorAll(".choice-group")];
+const majorGroup = document.querySelector("#major");
+const lastStep = panels.length - 1;
 let currentStep = 0;
 let enrollmentCount = 0;
 
-function clearError(field) {
-  field.removeAttribute("aria-invalid");
-  document.querySelector(`#${field.id}-error`).textContent = "";
+function setError(target, message) {
+  const error = document.querySelector(`#${target.id}-error`);
+  error.textContent = message;
+  if (message) target.setAttribute("aria-invalid", "true");
+  else target.removeAttribute("aria-invalid");
 }
-function validateField(field) {
-  clearError(field);
-  if (field.disabled) return true;
-  const value = field.value.trim();
+function checkedValue(group) {
+  return group.querySelector("input:checked")?.value ?? "";
+}
+function validateInput(input) {
+  const value = input.value.trim();
   let message = "";
-  if (field.required && !value) message = "Please complete this field.";
-  else if (value && field.minLength > 0 && value.length < field.minLength)
-    message = `Enter at least ${field.minLength} characters.`;
+  if (input.required && !value) message = "Please fill this in.";
+  else if (value && input.minLength > 0 && value.length < input.minLength)
+    message = `Needs at least ${input.minLength} characters.`;
   else if (
-    field.type === "email" &&
+    input.type === "email" &&
     value &&
     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
   )
-    message = "Enter a valid email address, such as you@example.com.";
-  else if (
-    field.tagName === "SELECT" &&
-    value &&
-    ![...field.options].some((option) => option.value === value)
-  )
-    message = "Please select an available option.";
-  if (message) {
-    field.setAttribute("aria-invalid", "true");
-    document.querySelector(`#${field.id}-error`).textContent = message;
-  }
+    message = "That doesn’t look like an email. Try you@example.com.";
+  setError(input, message);
+  return !message;
+}
+function validateGroup(group) {
+  const message =
+    !group.hidden && !checkedValue(group)
+      ? `Please choose your ${group.dataset.label}.`
+      : "";
+  setError(group, message);
   return !message;
 }
 function validateStep(step) {
-  const results = [...panels[step].querySelectorAll("input, select")].map(
-    validateField,
-  );
+  const panel = panels[step];
+  const results = [
+    ...inputs.filter((input) => panel.contains(input)).map(validateInput),
+    ...groups.filter((group) => panel.contains(group)).map(validateGroup),
+  ];
   const valid = results.every(Boolean);
-  if (!valid) panels[step].querySelector('[aria-invalid="true"]').focus();
+  if (!valid) {
+    const invalid = panel.querySelector('[aria-invalid="true"]');
+    invalid.closest("details")?.setAttribute("open", "");
+    (invalid.matches("fieldset")
+      ? invalid.querySelector("input")
+      : invalid
+    ).focus();
+  }
   return valid;
 }
 function enrollmentData() {
   const values = Object.fromEntries(
-    fields.map((field) => [field.name, field.value.trim()]),
+    [...new FormData(form)].map(([key, value]) => [key, value.trim()]),
   );
   return {
     "Student ID": values.studentId,
@@ -73,17 +86,32 @@ function enrollmentData() {
     "Year level": values.year,
   };
 }
+const reviewSteps = {
+  "Student ID": 0,
+  Name: 1,
+  Email: 2,
+  Course: 3,
+  Major: 3,
+  "Year level": 3,
+};
 function renderReview() {
   const review = document.querySelector("#review-details");
   review.replaceChildren();
   Object.entries(enrollmentData()).forEach(([label, value]) => {
-    const group = document.createElement("div");
+    if (label === "Major" && value === "—") return;
+    const row = document.createElement("div");
     const term = document.createElement("dt");
     const detail = document.createElement("dd");
+    const edit = document.createElement("button");
     term.textContent = label;
     detail.textContent = value;
-    group.append(term, detail);
-    review.append(group);
+    edit.type = "button";
+    edit.className = "edit-button";
+    edit.textContent = "Edit";
+    edit.setAttribute("aria-label", `Edit ${label}`);
+    edit.addEventListener("click", () => showStep(reviewSteps[label]));
+    row.append(term, detail, edit);
+    review.append(row);
   });
 }
 function showStep(step, focus = true) {
@@ -96,31 +124,38 @@ function showStep(step, focus = true) {
     if (index === step) button.setAttribute("aria-current", "step");
     else button.removeAttribute("aria-current");
   });
-  document.querySelector("#step-count").textContent = `STEP 0${step + 1} / 05`;
+  document.querySelector("#step-count").textContent =
+    `Step ${step + 1} of ${panels.length}`;
+  document.querySelector("#step-label").textContent = labels[step];
+  document.querySelector("#progress-fill").style.width =
+    `${((step + 1) / panels.length) * 100}%`;
+  document
+    .querySelector(".progress-track")
+    .setAttribute("aria-valuenow", step + 1);
   document.querySelector("#step-title").textContent = titles[step];
   document.querySelector("#back").disabled = step === 0;
-  document.querySelector("#next").innerHTML =
-    step === 4
-      ? 'Submit enrollment <span aria-hidden="true">↗</span>'
-      : 'Continue <span aria-hidden="true">↗</span>';
-  if (step === 4) renderReview();
+  document.querySelector("#next").textContent =
+    step === lastStep ? "Submit enrollment" : "Continue";
+  if (step === lastStep) renderReview();
   if (focus) document.querySelector("#step-title").focus();
 }
 function updateMajor() {
-  const isBSIT = course.value === "BSIT";
-  document.querySelector("#major-field").hidden = !isBSIT;
-  major.disabled = !isBSIT;
-  major.required = isBSIT;
+  const isBSIT = checkedValue(document.querySelector("#course")) === "BSIT";
+  majorGroup.hidden = !isBSIT;
   if (!isBSIT) {
-    major.value = "";
-    clearError(major);
+    majorGroup.querySelectorAll("input").forEach((radio) => {
+      radio.checked = false;
+    });
+    setError(majorGroup, "");
   }
 }
-fields.forEach((field) => {
-  field.addEventListener("input", () => clearError(field));
-  field.addEventListener("change", () => clearError(field));
-});
-course.addEventListener("change", updateMajor);
+inputs.forEach((input) =>
+  input.addEventListener("input", () => setError(input, "")),
+);
+groups.forEach((group) =>
+  group.addEventListener("change", () => setError(group, "")),
+);
+document.querySelector("#course").addEventListener("change", updateMajor);
 document.querySelector("#back").addEventListener("click", () => {
   if (currentStep > 0) showStep(currentStep - 1);
 });
@@ -140,17 +175,19 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
   document.querySelector("#success-message").hidden = true;
   if (!validateStep(currentStep)) return;
-  if (currentStep < 4) {
+  if (currentStep < lastStep) {
     showStep(currentStep + 1);
     return;
   }
-  for (let step = 0; step < 4; step++) {
+  for (let step = 0; step < lastStep; step++) {
     showStep(step, false);
     if (!validateStep(step)) return;
   }
+  const data = enrollmentData();
   const row = document.createElement("tr");
-  Object.values(enrollmentData()).forEach((value) => {
+  Object.entries(data).forEach(([label, value]) => {
     const cell = document.createElement("td");
+    cell.dataset.label = label;
     cell.textContent = value;
     row.append(cell);
   });
@@ -159,13 +196,14 @@ form.addEventListener("submit", (event) => {
   enrollmentCount++;
   document.querySelector("#record-count").textContent =
     `${enrollmentCount} enrollment${enrollmentCount === 1 ? "" : "s"}`;
+  document.querySelector("#record-badge").textContent = enrollmentCount;
   form.reset();
   updateMajor();
-  fields.forEach(clearError);
+  inputs.forEach((input) => setError(input, ""));
+  groups.forEach((group) => setError(group, ""));
   showStep(0);
   const success = document.querySelector("#success-message");
-  success.textContent =
-    "Enrollment submitted successfully! Your details are in the student records below.";
+  success.textContent = `🎉 You’re enrolled, ${data.Name}! Your details are saved in My records below.`;
   success.hidden = false;
 });
 updateMajor();
