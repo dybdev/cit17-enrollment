@@ -15,8 +15,8 @@ Open `index.html` in your browser to use the form. No installation or build is r
 ## Files
 
 - `index.html`: Form steps and the submitted students table
-- `style.css`: Simple, commented styles for the form, progress bar, and table
-- `script.js`: Beginner-friendly, commented code for steps, validation, review, and submission
+- `style.css`: Simple, commented styles for the form, custom dropdowns, progress bar, and table
+- `script.js`: Beginner-friendly, commented code for steps, validation, custom dropdowns, review, and submission
 
 ## GitHub Pages
 

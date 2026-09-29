@@ -5,7 +5,6 @@ const totalSteps = 5;
 const form = document.getElementById("enrollForm");
 const backBtn = document.getElementById("backBtn");
 const nextBtn = document.getElementById("nextBtn");
-const courseSelect = document.getElementById("course");
 const majorBox = document.getElementById("majorBox");
 
 // ========== HELPER FUNCTIONS ==========
@@ -15,15 +14,25 @@ function getValue(id) {
   return document.getElementById(id).value.trim();
 }
 
+// The part of a field that gets the red border.
+// For our custom dropdowns, that is the whole .dropdown box.
+function getFieldBox(id) {
+  const field = document.getElementById(id);
+  if (field.type === "hidden") {
+    return field.parentElement;
+  }
+  return field;
+}
+
 // Show a red error message under a field
 function showError(id, message) {
-  document.getElementById(id).classList.add("input-error");
+  getFieldBox(id).classList.add("input-error");
   document.getElementById(id + "Error").textContent = message;
 }
 
 // Remove the error message under a field
 function clearError(id) {
-  document.getElementById(id).classList.remove("input-error");
+  getFieldBox(id).classList.remove("input-error");
   document.getElementById(id + "Error").textContent = "";
 }
 
@@ -218,6 +227,9 @@ form.addEventListener("submit", (event) => {
   // Last step: submit the enrollment
   addToTable(getStudent());
   form.reset();
+  resetDropdown("course");
+  resetDropdown("major");
+  resetDropdown("year");
   majorBox.classList.add("hidden");
   currentStep = 1;
   showStep(currentStep);
@@ -231,19 +243,127 @@ backBtn.addEventListener("click", () => {
   }
 });
 
+// ========== CUSTOM DROPDOWNS ==========
+// Each dropdown has: a hidden input (stores the value),
+// a button (shows the choice) and a list of option buttons.
+
+// Open or close one dropdown
+function toggleDropdown(dropdown) {
+  const isOpen = dropdown.classList.contains("open");
+  closeAllDropdowns();
+  if (!isOpen) {
+    dropdown.classList.add("open");
+  }
+}
+
+function closeAllDropdowns() {
+  document.querySelectorAll(".dropdown.open").forEach((dropdown) => {
+    dropdown.classList.remove("open");
+  });
+}
+
+// Save the clicked option into the dropdown
+function selectOption(dropdown, option) {
+  const hiddenInput = dropdown.querySelector("input");
+  hiddenInput.value = option.dataset.value;
+  dropdown.querySelector(".dropdown-text").textContent = option.textContent;
+  dropdown.classList.add("has-value");
+
+  // Highlight only the chosen option
+  dropdown.querySelectorAll(".dropdown-list button").forEach((button) => {
+    button.classList.remove("selected");
+  });
+  option.classList.add("selected");
+
+  clearError(hiddenInput.id);
+  dropdown.classList.remove("open");
+  dropdown.querySelector(".dropdown-button").focus();
+
+  if (hiddenInput.id === "course") {
+    updateMajor();
+  }
+}
+
+// Put a dropdown back to "Select ..." with nothing chosen
+function resetDropdown(id) {
+  const hiddenInput = document.getElementById(id);
+  const dropdown = hiddenInput.parentElement;
+  const text = dropdown.querySelector(".dropdown-text");
+
+  hiddenInput.value = "";
+  text.textContent = text.dataset.placeholder;
+  dropdown.classList.remove("has-value");
+  dropdown.querySelectorAll(".dropdown-list button").forEach((button) => {
+    button.classList.remove("selected");
+  });
+  clearError(id);
+}
+
 // Show the Major dropdown only for BSIT
-courseSelect.addEventListener("change", () => {
-  if (courseSelect.value === "BSIT") {
+function updateMajor() {
+  if (getValue("course") === "BSIT") {
     majorBox.classList.remove("hidden");
   } else {
     majorBox.classList.add("hidden");
-    document.getElementById("major").value = "";
-    clearError("major");
+    resetDropdown("major");
+  }
+}
+
+// Set up the clicks for every dropdown on the page
+document.querySelectorAll(".dropdown").forEach((dropdown) => {
+  const text = dropdown.querySelector(".dropdown-text");
+  text.dataset.placeholder = text.textContent; // remember "Select ..."
+
+  const button = dropdown.querySelector(".dropdown-button");
+  const options = dropdown.querySelectorAll(".dropdown-list button");
+
+  button.addEventListener("click", () => {
+    toggleDropdown(dropdown);
+  });
+
+  // Arrow Down on the dropdown opens it and jumps to the first option
+  button.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      closeAllDropdowns();
+      dropdown.classList.add("open");
+      options[0].focus();
+    }
+  });
+
+  options.forEach((option, index) => {
+    option.addEventListener("click", () => selectOption(dropdown, option));
+
+    // Arrow keys move up and down the list
+    option.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown" && index < options.length - 1) {
+        event.preventDefault();
+        options[index + 1].focus();
+      }
+      if (event.key === "ArrowUp" && index > 0) {
+        event.preventDefault();
+        options[index - 1].focus();
+      }
+    });
+  });
+});
+
+// Close dropdowns when clicking anywhere else
+document.addEventListener("click", (event) => {
+  if (!event.target.closest(".dropdown")) {
+    closeAllDropdowns();
   }
 });
 
-// Clear a field's error as soon as the student types or picks something
-document.querySelectorAll("input, select").forEach((field) => {
+// Close dropdowns with the Escape key
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeAllDropdowns();
+  }
+});
+
+// Clear a field's error as soon as the student types something
+document.querySelectorAll("input").forEach((field) => {
   field.addEventListener("input", () => clearError(field.id));
 });
 

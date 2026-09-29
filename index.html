@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css?v=3" />
+    <link rel="stylesheet" href="style.css?v=4" />
   </head>
   <body>
     <!-- ========== ENROLLMENT FORM ========== -->
@@ -68,35 +68,57 @@
         <div class="step hidden" id="step4">
           <h2>Academic Info</h2>
 
-          <label for="course">Course *</label>
-          <select id="course">
-            <option value="">-- Select course --</option>
-            <option value="BSIT">BSIT</option>
-            <option value="BSCS">BSCS</option>
-            <option value="BMMA">BMMA</option>
-            <option value="BSAIS">BSAIS</option>
-          </select>
+          <!-- Custom dropdowns: a button that opens a list of choices -->
+          <label for="courseButton">Course *</label>
+          <div class="dropdown">
+            <!-- The chosen value is saved in this hidden input -->
+            <input type="hidden" id="course" />
+            <button type="button" class="dropdown-button" id="courseButton">
+              <span class="dropdown-text">Select course</span>
+              <span class="dropdown-arrow"></span>
+            </button>
+            <ul class="dropdown-list">
+              <li><button type="button" data-value="BSIT">BSIT</button></li>
+              <li><button type="button" data-value="BSCS">BSCS</button></li>
+              <li><button type="button" data-value="BMMA">BMMA</button></li>
+              <li><button type="button" data-value="BSAIS">BSAIS</button></li>
+            </ul>
+          </div>
           <small class="error" id="courseError"></small>
 
           <!-- Major only shows when BSIT is selected -->
           <div id="majorBox" class="hidden">
-            <label for="major">BSIT Major *</label>
-            <select id="major">
-              <option value="">-- Select major --</option>
-              <option value="Net Sec">Net Sec</option>
-              <option value="Web Tech">Web Tech</option>
-              <option value="ERP">ERP</option>
-            </select>
+            <label for="majorButton">BSIT Major *</label>
+            <div class="dropdown">
+              <!-- The chosen value is saved in this hidden input -->
+              <input type="hidden" id="major" />
+              <button type="button" class="dropdown-button" id="majorButton">
+                <span class="dropdown-text">Select major</span>
+                <span class="dropdown-arrow"></span>
+              </button>
+              <ul class="dropdown-list">
+                <li><button type="button" data-value="Net Sec">Net Sec</button></li>
+                <li><button type="button" data-value="Web Tech">Web Tech</button></li>
+                <li><button type="button" data-value="ERP">ERP</button></li>
+              </ul>
+            </div>
             <small class="error" id="majorError"></small>
           </div>
 
-          <label for="year">Year Level *</label>
-          <select id="year">
-            <option value="">-- Select year level --</option>
-            <option value="1st Year">1st Year</option>
-            <option value="2nd Year">2nd Year</option>
-            <option value="3rd Year">3rd Year</option>
-          </select>
+          <label for="yearButton">Year Level *</label>
+          <div class="dropdown">
+            <!-- The chosen value is saved in this hidden input -->
+            <input type="hidden" id="year" />
+            <button type="button" class="dropdown-button" id="yearButton">
+              <span class="dropdown-text">Select year level</span>
+              <span class="dropdown-arrow"></span>
+            </button>
+            <ul class="dropdown-list">
+              <li><button type="button" data-value="1st Year">1st Year</button></li>
+              <li><button type="button" data-value="2nd Year">2nd Year</button></li>
+              <li><button type="button" data-value="3rd Year">3rd Year</button></li>
+            </ul>
+          </div>
           <small class="error" id="yearError"></small>
         </div>
 
@@ -143,6 +165,6 @@
       </div>
     </div>
 
-    <script src="script.js?v=3"></script>
+    <script src="script.js?v=4"></script>
   </body>
 </html>

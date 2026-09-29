@@ -68,8 +68,7 @@ label {
   font-weight: 500;
 }
 
-input,
-select {
+input {
   width: 100%;
   padding: 12px;
   font-family: inherit;
@@ -79,8 +78,7 @@ select {
   background-color: #fff;
 }
 
-input:focus,
-select:focus {
+input:focus {
   outline: none;
   border-color: #ff7a1a;
 }
@@ -100,6 +98,121 @@ select:focus {
 /* Used by JavaScript to hide/show things */
 .hidden {
   display: none;
+}
+
+/* ========== CUSTOM DROPDOWN ========== */
+.dropdown {
+  position: relative; /* so the list can sit right under the button */
+}
+
+/* The box you click to open the dropdown */
+.dropdown-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px;
+  font-family: inherit;
+  font-size: 15px;
+  color: #999; /* grey until something is picked */
+  text-align: left;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.dropdown-button:hover,
+.dropdown.open .dropdown-button {
+  border-color: #ff7a1a;
+}
+
+/* Text turns dark once a choice is picked */
+.dropdown.has-value .dropdown-button {
+  color: #222;
+}
+
+/* Arrow icon made with CSS borders */
+.dropdown-arrow {
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  border-right: 2px solid #666;
+  border-bottom: 2px solid #666;
+  transform: rotate(45deg); /* points down */
+  transition: transform 0.3s;
+}
+
+/* When open, the arrow flips to point up */
+.dropdown.open .dropdown-arrow {
+  border-color: #ff7a1a;
+  transform: rotate(225deg);
+}
+
+/* The list of choices (hidden until opened) */
+.dropdown-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+
+  /* Start hidden and slightly moved up */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  /* "visibility" waits 0.2s so the list can fade out before hiding */
+  transition:
+    opacity 0.2s,
+    transform 0.2s,
+    visibility 0s 0.2s;
+}
+
+/* Slide down and fade in when open */
+.dropdown.open .dropdown-list {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition-delay: 0s; /* show right away when opening */
+}
+
+/* Each choice in the list */
+.dropdown-list button {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 15px;
+  color: #222;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.dropdown-list button:hover,
+.dropdown-list button:focus {
+  outline: none;
+  background-color: #fff3e8;
+}
+
+/* The currently chosen option */
+.dropdown-list button.selected {
+  font-weight: 600;
+  color: #ff7a1a;
+}
+
+/* Red border when the dropdown has an error */
+.dropdown.input-error .dropdown-button {
+  border-color: #d93025;
 }
 
 /* ========== REVIEW STEP ========== */
@@ -181,6 +294,14 @@ th {
 #emptyRow td {
   text-align: center;
   color: #888;
+}
+
+/* ========== LESS MOTION ========== */
+/* Turn off animations for people who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
 }
 
 /* ========== SMALL SCREENS (PHONES) ========== */
